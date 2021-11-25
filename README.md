@@ -1,6 +1,6 @@
 # Confluent for Kubernetes GitOps Workshop Sample Repo
 
-## 1. Install Confluent for Kubernetes
+## Install Confluent for Kubernetes
 
 ### Minikube for development environment
 
