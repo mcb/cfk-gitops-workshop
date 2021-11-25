@@ -57,11 +57,11 @@ schemas.platform.confluent.io                 2021-11-25T13:48:26Z
 zookeepers.platform.confluent.io              2021-11-25T13:48:26Z
 ```
 
-With the CRDs in place, let's deploy Confluent Platform in a single node configuration. This can be done using the prepared YAML file in dev/confluent-platform-minikube.yaml
+With the CRDs in place, let's deploy Confluent Platform in a single node configuration. This can be done using the prepared YAML file in [dev/confluent-platform-minikube.yaml](dev/confluent-platform-minikube.yaml)
 
 ```
 # Deploy the yaml
-kubectl apply -f /home/ubuntu/code/cfk-workshop/dev/confluent-platform-minikube.yaml -n confluent
+kubectl apply -f dev/confluent-platform-minikube.yaml -n confluent
 ```
 
 Check your current state with `kubectl get pods` or using a tool like `k9s`.
