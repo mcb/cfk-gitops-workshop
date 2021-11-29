@@ -71,7 +71,7 @@ Check your current state with `kubectl get pods` or using a tool like `k9s`.
 To fire up your Control Center you will need to check which service endpoint is for Control Center
 
 ```
-kubectl get svc | grep controlcenter
+kubectl get svc -n confluent | grep controlcenter
 NAME                         TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                                                          AGE
 controlcenter                ClusterIP      None             <none>        9021/TCP,7203/TCP,7777/TCP,7778/TCP                              80m
 controlcenter-0-internal     ClusterIP      10.108.65.34     <none>        9021/TCP,7203/TCP,7777/TCP,7778/TCP                              80m
@@ -81,7 +81,7 @@ controlcenter-0-internal     ClusterIP      10.108.65.34     <none>        9021/
 then start port forwarding to allow access
 
 ```
-kubectl port-forward --address 0.0.0.0 svc/controlcenter-0-internal 9021:9021
+kubectl port-forward -n confluent --address 0.0.0.0 svc/controlcenter-0-internal 9021:9021
 ```
 
 Login to http://localhost:9021 to acces Control Center.
