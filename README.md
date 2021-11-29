@@ -19,7 +19,7 @@ After checking that minikube is up and running, we'll install the Confluent for 
 kubectl create ns confluent
 
 # Add the Confluent Helm repository. Helm is used to package the Confluent for Kubernetes(CFK) Operator and CRDs.
-helm repo add confluentinc https://packages.confluent.io/helm -n confluent
+helm repo add confluentinc https://packages.confluent.io/helm
 
 # Install CFK Operator into the confluent namespace
 helm install cfk-operator confluentinc/confluent-for-kubernetes -n confluent
@@ -39,7 +39,7 @@ confluent-operator-849956574b-n28jj   1/1     Running   0          91m
 CustomResourceDefinition (CRD) resource allows you to define custom resources. Confluent for Kubernetes includes CRDs for each component as well as for RBAC and topics.
 
 ```
-kubectl get crds
+kubectl get crds -n confluent
 NAME                                          CREATED AT
 clusterlinks.platform.confluent.io            2021-11-25T13:48:26Z
 confluentrolebindings.platform.confluent.io   2021-11-25T13:48:26Z
