@@ -19,7 +19,7 @@ After checking that minikube is up and running, we'll install the Confluent for 
 kubectl create ns confluent
 
 # Add the Confluent Helm repository. Helm is used to package the Confluent for Kubernetes(CFK) Operator and CRDs.
-helm repo add confluentinc https://packages.confluent.io/helm
+helm repo add confluentinc https://packages.confluent.io/helm -n confluent
 
 # Install CFK Operator into the confluent namespace
 helm install cfk-operator confluentinc/confluent-for-kubernetes -n confluent
