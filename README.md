@@ -155,3 +155,13 @@ flux bootstrap github \
 ✔ all components are healthy
 ```
   
+Flux will generate a separate namespace and create 4 resources in it
+
+```
+kubectl get pods -n flux-system
+NAME                                      READY   STATUS    RESTARTS   AGE
+helm-controller-66b59bb6dc-z97nb          1/1     Running   0          24m
+kustomize-controller-7987d6697f-rnp8p     1/1     Running   0          24m
+notification-controller-945795558-hp22l   1/1     Running   0          24m
+source-controller-b5bd68987-dpt5q         1/1     Running   0          24m
+```
