@@ -166,7 +166,7 @@ notification-controller-945795558-hp22l   1/1     Running   0          24m
 source-controller-b5bd68987-dpt5q         1/1     Running   0          24m
 ```
 
-Also, you will notice a bunch of files in the clusters/minikube directory. This is where the configuration for flux-system goes, it is separated by namespace. 
+Also, you will notice a bunch of files in the clusters/minikube directory. This is where the configuration for flux-system goes, we will make use of the separation by namespaces. 
 
 To add a new namespace, simply add a new file to a new directory
 
@@ -193,7 +193,7 @@ kubectl logs -n flux-system kustomize-controller-7987d6697f-rnp8p | grep conflue
 {"level":"info","ts":"2021-11-29T13:29:05.121Z","logger":"controller.kustomization","msg":"server-side apply completed","reconciler group":"kustomize.toolkit.fluxcd.io","reconciler kind":"Kustomization","name":"flux-system","namespace":"flux-system","output":{"CustomResourceDefinition/alerts.notification.toolkit.fluxcd.io":"unchanged","CustomResourceDefinition/buckets.source.toolkit.fluxcd.io":"unchanged","CustomResourceDefinition/gitrepositories.source.toolkit.fluxcd.io":"unchanged","CustomResourceDefinition/helmcharts.source.toolkit.fluxcd.io":"unchanged","CustomResourceDefinition/helmreleases.helm.toolkit.fluxcd.io":"unchanged","CustomResourceDefinition/helmrepositories.source.toolkit.fluxcd.io":"unchanged","CustomResourceDefinition/kustomizations.kustomize.toolkit.fluxcd.io":"unchanged","CustomResourceDefinition/providers.notification.toolkit.fluxcd.io":"unchanged","CustomResourceDefinition/receivers.notification.toolkit.fluxcd.io":"unchanged","Namespace/confluent":"configured","Namespace/flux-system":"unchanged"}}
 ```
 
-This will reveal, that the `"Namespace/confluent":"configured"` has been successfully triggered.
+This will reveal that the `"Namespace/confluent":"configured"` has been successfully triggered.
 
 Now that we have a configuration for the namespace, let's add our confluent-platform-minikube.yaml to be managed by flux. This can be done by simply adding it to the confluent directory, we created earlier. You will now see more configurations happening in the kustomize-controller logs
 
