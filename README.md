@@ -86,3 +86,72 @@ kubectl port-forward -n confluent --address 0.0.0.0 svc/controlcenter-0-internal
 
 Login to http://localhost:9021 to acces Control Center.
 
+
+## Install fluxCD
+
+Install fluxCD via Homebrew (on macOS) or similiar:
+
+```
+brew install fluxcd/tap/flux
+```
+
+and check if the preflight checks pass
+
+```
+flux check --pre
+► checking prerequisites
+✔ Kubernetes 1.20.2 >=1.19.0-0
+✔ prerequisites checks passed
+```
+
+### Export your Github personal token
+
+Go to github.com, navigate to Settings -> Developer -> Personal access token and generate a token with repo rights
+
+```
+export GITHUB_TOKEN=<github_token>
+export GITHUB_USER=<github_username>
+```
+
+Bootstrap flux
+```
+flux bootstrap github \
+  --owner=$GITHUB_USER \
+  --repository=cfk-gitops \
+  --branch=main \
+  --path=./clusters/my-cluster \
+  --personal
+  ```
+  
+  and the output will be similiar to 
+  ```
+  ► connecting to github.com
+► cloning branch "main" from Git repository "https://github.com/mcb/cfk-gitops.git"
+✔ cloned repository
+► generating component manifests
+✔ generated component manifests
+✔ committed sync manifests to "main" ("7a6e4d673fe7a5e50a9c0085c2cc875f23ec6d4a")
+► pushing component manifests to "https://github.com/mcb/cfk-gitops.git"
+✔ installed components
+✔ reconciled components
+► determining if source secret "flux-system/flux-system" exists
+► generating source secret
+✔ configured deploy key "flux-system-main-flux-system-./clusters/minikube" for "https://github.com/mcb/cfk-gitops"
+► applying source secret "flux-system/flux-system"
+✔ reconciled source secret
+► generating sync manifests
+✔ generated sync manifests
+✔ committed sync manifests to "main" ("b95d6f3de4e7570184e9fab226a8afee4dabf92c")
+► pushing sync manifests to "https://github.com/mcb/cfk-gitops.git"
+► applying sync manifests
+✔ reconciled sync configuration
+◎ waiting for Kustomization "flux-system/flux-system" to be reconciled
+✔ Kustomization reconciled successfully
+► confirming components are healthy
+✔ helm-controller: deployment ready
+✔ kustomize-controller: deployment ready
+✔ notification-controller: deployment ready
+✔ source-controller: deployment ready
+✔ all components are healthy
+```
+  
