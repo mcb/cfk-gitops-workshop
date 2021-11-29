@@ -174,3 +174,13 @@ spec:
       fsGroup: 1000
       runAsUser: 1000
       runAsNonRoot: true
+---
+apiVersion: platform.confluent.io/v1beta1
+kind: KafkaRestClass
+metadata:
+  name: kafka-rest
+  namespace: confluent
+spec:
+  kafkaClusterRef:     
+    name: kafka
+    namespace: confluent
