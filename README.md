@@ -155,7 +155,7 @@ flux bootstrap github \
 ✔ all components are healthy
 ```
   
-Flux will generate a separate namespace and create 4 resources in it
+Flux will generate a separate namespace and create 4 resources in it, let's have a look what has been generated
 
 ```
 kubectl get pods -n flux-system
@@ -164,4 +164,40 @@ helm-controller-66b59bb6dc-z97nb          1/1     Running   0          24m
 kustomize-controller-7987d6697f-rnp8p     1/1     Running   0          24m
 notification-controller-945795558-hp22l   1/1     Running   0          24m
 source-controller-b5bd68987-dpt5q         1/1     Running   0          24m
+```
+
+Also, you will notice a bunch of files in the clusters/minikube directory. This is where the configuration for flux-system goes, it is separated by namespace. 
+
+To add a new namespace, simply add a new file to a new directory
+
+```
+# create directory to hold namespace configuration
+mkdir clusters/minikube/confluent
+
+# create namespace.yaml
+
+cat <<EOF > clusters/minikube/confluent/namespace.yaml                                                                                                      main
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: confluent
+EOF
+```
+
+Commit and push to github and see flux configuring the namespace for you. If you cannot see the changes as you might have already the confluent namespace from the previous step, you may inspect the kustomize-controller logs
+
+```
+# check the kusztomize-controller logs, your id will be slightly different (see step above)
+kubectl logs -n flux-system kustomize-controller-7987d6697f-rnp8p | grep confluent
+{"level":"info","ts":"2021-11-29T13:29:05.121Z","logger":"controller.kustomization","msg":"server-side apply completed","reconciler group":"kustomize.toolkit.fluxcd.io","reconciler kind":"Kustomization","name":"flux-system","namespace":"flux-system","output":{"CustomResourceDefinition/alerts.notification.toolkit.fluxcd.io":"unchanged","CustomResourceDefinition/buckets.source.toolkit.fluxcd.io":"unchanged","CustomResourceDefinition/gitrepositories.source.toolkit.fluxcd.io":"unchanged","CustomResourceDefinition/helmcharts.source.toolkit.fluxcd.io":"unchanged","CustomResourceDefinition/helmreleases.helm.toolkit.fluxcd.io":"unchanged","CustomResourceDefinition/helmrepositories.source.toolkit.fluxcd.io":"unchanged","CustomResourceDefinition/kustomizations.kustomize.toolkit.fluxcd.io":"unchanged","CustomResourceDefinition/providers.notification.toolkit.fluxcd.io":"unchanged","CustomResourceDefinition/receivers.notification.toolkit.fluxcd.io":"unchanged","Namespace/confluent":"configured","Namespace/flux-system":"unchanged"}}
+```
+
+This will reveal, that the `"Namespace/confluent":"configured"` has been successfully triggered.
+
+Now that we have a configuration for the namespace, let's add our confluent-platform-minikube.yaml to be managed by flux. This can be done by simply adding it to the confluent directory, we created earlier. You will now see more configurations happening in the kustomize-controller logs
+
+```
+~ % kubectl logs -n flux-system kustomize-controller-7987d6697f-rnp8p | grep kafka
+{"level":"info","ts":"2021-11-29T13:33:09.563Z","logger":"controller.kustomization","msg":"server-side apply completed","reconciler group":"kustomize.toolkit.fluxcd.io","reconciler kind":"Kustomization","name":"flux-system","namespace":"flux-system","output":{"ClusterRole/crd-controller-flux-system":"unchanged","ClusterRoleBinding/cluster-reconciler-flux-system":"unchanged","ClusterRoleBinding/crd-controller-flux-system":"unchanged","Connect/confluent/connect":"configured","ControlCenter/confluent/controlcenter":"configured","Deployment/flux-system/helm-controller":"unchanged","Deployment/flux-system/kustomize-controller":"unchanged","Deployment/flux-system/notification-controller":"unchanged","Deployment/flux-system/source-controller":"unchanged","GitRepository/flux-system/flux-system":"unchanged","Kafka/confluent/kafka":"configured","KsqlDB/confluent/ksqldb":"configured","Kustomization/flux-system/flux-system":"unchanged","NetworkPolicy/flux-system/allow-egress":"unchanged","NetworkPolicy/flux-system/allow-scraping":"unchanged","NetworkPolicy/flux-system/allow-webhooks":"unchanged","SchemaRegistry/confluent/schemaregistry":"configured","Service/flux-system/notification-controller":"unchanged","Service/flux-system/source-controller":"unchanged","Service/flux-system/webhook-receiver":"unchanged","ServiceAccount/flux-system/helm-controller":"unchanged","ServiceAccount/flux-system/kustomize-controller":"unchanged","ServiceAccount/flux-system/notification-controller":"unchanged","ServiceAccount/flux-system/source-controller":"unchanged","Zookeeper/confluent/zookeeper":"configured"}}
 ```
