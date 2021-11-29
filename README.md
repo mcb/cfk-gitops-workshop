@@ -57,7 +57,7 @@ schemas.platform.confluent.io                 2021-11-25T13:48:26Z
 zookeepers.platform.confluent.io              2021-11-25T13:48:26Z
 ```
 
-With the CRDs in place, let's deploy Confluent Platform in a single node configuration. This can be done using the prepared YAML file in [dev/confluent-platform-minikube.yaml](dev/confluent-platform-minikube.yaml)
+With the CRDs in place, let's deploy Confluent Platform in a single node configuration. This can be done using the prepared YAML file in [clusters/minikube/confluent/confluent-platform-minikube.yaml](clusters/minikube/confluent/confluent-platform-minikube.yaml)
 
 ```
 # Deploy the yaml
