@@ -184,15 +184,3 @@ spec:
   kafkaClusterRef:     
     name: kafka
     namespace: confluent
----
-apiVersion: platform.confluent.io/v1beta1
-kind: KafkaTopic
-metadata:
-  name: topic-a
-  namespace: confluent
-spec:
-  replicas: 1
-  partitionCount: 6
-  kafkaClusterRef:
-    name: kafka
-    namespace: confluent
