@@ -61,7 +61,7 @@ With the CRDs in place, let's deploy Confluent Platform in a single node configu
 
 ```
 # Deploy the yaml
-kubectl apply -f dev/confluent-platform-minikube.yaml -n confluent
+kubectl apply -f clusters/minikube/confluent/confluent-platform-minikube.yaml -n confluent
 ```
 
 Check your current state with `kubectl get pods` or using a tool like `k9s`.
